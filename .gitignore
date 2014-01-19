@@ -1,0 +1,5 @@
+videos/*
+config.json
+node_modules*
+cookie.txt
+*.log

@@ -1,0 +1,10 @@
+extends layout
+block content
+  h1= videotitle
+  section
+    video(src="/"+id+".mp4", controls)
+    br
+    a(href="http://nicovideo.jp/watch/"+id)= "「"+videotitle+"」をニコニコ動画で見る"
+  hr
+  footer
+    a(href="/")= "back to Index"

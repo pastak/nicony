@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1= title
+  section(ng-controller="AnimeListCtrl")
+    div
+        div(ng-repeat="item in animeTitles")
+            button.btn(ng-class="getSelectBtnClass()",style="float:left",data-channel-id="{{item.channel}}",ng-click="channelSelectAction()")= "{{item.title}}"
+    br(style="clear:both;")
+    br
+    .row
+        .col-md-6
+            button.btn(ng-class="getSelectDLBtnClass()",ng-click="downloadSelectAction()")= "ダウンロード済みのみ表示する"
+        .col-md-6
+            .input-group
+                input.form-control(type="text",id="downloadRequestId")
+                span.input-group-btn
+                    button.btn.btn-default(type="button",ng-click="downloadRequestById()")= "Download"
+    br
+    br
+    .row(ng-repeat-start="item in animeList",ng-class="{nonactive:!isShow()}")
+        .col-md-1
+        .col-md-2(style="text-align: right;")
+            a(ng-href='http://nicovideo.jp/watch/{{item.id}}' target="_blank")
+                img(ng-src='{{item.thumbnail}}')
+        .col-md-8(style="border-left:10px solid #898")
+            h3 {{item.title}}
+            button.btn.btn-info(data-download-id='{{item.id}}', ng-click="downloadBtnAction()")= "{{downloadStatus()}}"
+        .col-md-1
+    br(ng-repeat-end,ng-class="{nonactive:!isShow()}")
