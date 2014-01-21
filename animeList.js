@@ -9,9 +9,10 @@ exports.JSON = function(req, res){
     uri: "http://ch.nicovideo.jp/portal/anime",
   }, 
   function(error, response, body) {
-    if(!error){
-      updateAnimeList(body,res);
+    if(error){
+      body = undefined;
     }
+      updateAnimeList(body,res);
   })
 }
 
@@ -36,25 +37,27 @@ exports.channels = function(){
 }
 
 function updateAnimeList(body,res){
-  var $ = cheerio.load(body);
-  $("#playerNav0 > ul > li").each(function() { 
-    var list = $(this);
-    var title = list.find('input[name=title]').val();
-    var channel_id = list.find('input[name=channel_id]').val();
-    var thumbnail = list.find('input[name=thumbnail_url]').val();
-    var video_id = list.attr('id').replace(/video_\d+_/,'');
-    Video.find({id:video_id},function(err,items){
-      if(items.length < 1){
-        var newvideo = new Video();
-        newvideo.title = title;
-        newvideo.id = video_id;
-        newvideo.thumbnail = thumbnail;
-        newvideo.channel = channel_id;
-        newvideo.fileName = null;
-        newvideo.save(function(err){if(err)console.log(err)});
-      }
+  if(body){
+    var $ = cheerio.load(body);
+    $("#playerNav0 > ul > li").each(function() { 
+      var list = $(this);
+      var title = list.find('input[name=title]').val();
+      var channel_id = list.find('input[name=channel_id]').val();
+      var thumbnail = list.find('input[name=thumbnail_url]').val();
+      var video_id = list.attr('id').replace(/video_\d+_/,'');
+      Video.find({id:video_id},function(err,items){
+        if(items.length < 1){
+          var newvideo = new Video();
+          newvideo.title = title;
+          newvideo.id = video_id;
+          newvideo.thumbnail = thumbnail;
+          newvideo.channel = channel_id;
+          newvideo.fileName = null;
+          newvideo.save(function(err){if(err)console.log(err)});
+        }
+      });
     });
-  });
+  }
   Video.find({},function(err,items){
     if(err){
       console.log(err)
