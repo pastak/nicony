@@ -47,6 +47,7 @@ exec('php ./download.php ' + videoId + ' > ./videos/' + videoId + '.mp4', functi
             res.json({status:0});
             return false;
           }else{
+            console.log('「'+title+'」のダウンロードに成功しました');
             res.json({
               status: 1,
               title: title
