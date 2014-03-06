@@ -30,7 +30,6 @@ exports.channels = function(){
         });
       })
       var json = JSON.stringify(channels);
-      console.log(channels);
       res.send(json);
     }
   })
@@ -63,7 +62,6 @@ function updateAnimeList(body,res){
       console.log(err)
     }else{
       var json = JSON.stringify(items);
-      console.log(items);
       res.send(json);
     }
   });

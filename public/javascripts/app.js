@@ -54,10 +54,10 @@ function AnimeListCtrl($scope, $http){
           console.log(this.item.title);
           var videoid = this.item.id;
           var title = this.item.title;
-          $.getJSON('/download/' + videoid,function(data){
+          $.getJSON('/download/' + videoid + '?title=' + encodeURIComponent(title),function(data){
             if(data.status){
               alert('「'+title+'」のダウンロードに成功しました');
-              $scope.downloadStatus();
+              this.item.fileName = videoid + '.mp4';
               $scope.downloadBtnAction = openVideo.bind(this);
             }else{
               alert('「'+title+'」のダウンロードに失敗しました');

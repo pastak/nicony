@@ -12,6 +12,7 @@ exec('php ./download.php ' + videoId + ' > ./videos/' + videoId + '.mp4', functi
     }else{
       Video.update({id:videoId}, {$set:{fileName: videoId + '.mp4'}}, function(err){ console.log(err) });
       res.json({status:1});
+      req.query.title && console.log('「' + req.query.title + '」をダウンロードに成功しました');
     }
 });
 
